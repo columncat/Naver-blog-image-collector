@@ -1,0 +1,6 @@
+# instants
+bin/
+.vs/
+
+# db
+*.sqlite
