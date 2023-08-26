@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System.Data.SQLite;
 using HtmlAgilityPack;
+using System;
 using System.Net;
 using System.Web;
+using System.IO;
 
 public class Blog
 {
@@ -79,7 +81,7 @@ public class Blog
         var doc = await web.LoadFromWebAsync($"https://blog.naver.com/PostView.naver?blogId={this.blogId}");
         var imgs = doc.DocumentNode.SelectNodes("//div[@id='postViewArea']//img");
 
-        string dbPath = "C:/Users/geonj/repository/CSharp/BlogImageCrawler/db.sqlite";
+        string dbPath = Directory.GetCurrentDirectory() + "db.sqlite";
         if (!File.Exists(dbPath)) SQLiteConnection.CreateFile(dbPath);
         using (SQLiteConnection conn = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
         {
@@ -127,7 +129,7 @@ public class Blog
 
     private void GetPostsFromSQL()
     {
-        string dbPath = "C:/Users/geonj/repository/CSharp/BlogImageCrawler/db.sqlite";
+        string dbPath = Directory.GetCurrentDirectory() + "db.sqlite";
         if (!File.Exists(dbPath)) return;
         using (SQLiteConnection conn = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
         {
@@ -176,7 +178,7 @@ public class Blog
         Console.Write("3. Gathering images from each page\n");
 
         object lockObj = new object();
-        string dbPath = "C:/Users/geonj/repository/CSharp/BlogImageCrawler/db.sqlite";
+        string dbPath = Directory.GetCurrentDirectory() + "db.sqlite";
         using (SQLiteConnection conn = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
         {
             conn.Open();
@@ -259,7 +261,7 @@ public class Blog
 
     private void GetImagesFromSQL()
     {
-        string dbPath = "C:/Users/geonj/repository/CSharp/BlogImageCrawler/db.sqlite";
+        string dbPath = Directory.GetCurrentDirectory() + "db.sqlite";
         using (SQLiteConnection conn = new SQLiteConnection($"Data Source={dbPath};Version=3;"))
         {
             conn.Open();
